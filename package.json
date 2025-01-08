@@ -5,8 +5,13 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn src/index.ts",
-     "build": "tsc",
-    "start": "node dist/index.js"
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "typeorm": "ts-node ./node_modules/typeorm/cli.js -d ./src/database/ormconfig.ts",
+    "gen:migration": "npm run typeorm migration:generate ./src/database/migrations/blog",
+    "run:migrations": "npm run typeorm migration:run",
+    "revert:migration": "npm run typeorm migration:revert",
+    "empty:migration": "npm run typeorm migration:create ./src/database/migrations/blog"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +22,7 @@
     "morgan": "^1.10.0",
     "pg": "^8.13.1",
     "reflect-metadata": "^0.2.2",
+    "ts-node": "^10.9.2",
     "typeorm": "^0.3.20"
   },
   "devDependencies": {
@@ -26,5 +32,7 @@
     "@types/node": "^22.10.5",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.7.2"
+    
   }
 }
+

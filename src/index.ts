@@ -1,10 +1,10 @@
 import "reflect-metadata";
 import app from "./app";
-import { AppDataSource } from "./db";
+import appDataSource from "./database/ormconfig";
 
 async function main() {
   try {
-    await AppDataSource.initialize();
+    await appDataSource.initialize();
     app.listen(3000);
     console.log("Hello Mauro");
     console.log("Server lisening on port", 3000);
