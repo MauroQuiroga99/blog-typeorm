@@ -50,3 +50,26 @@ export const registerUser = async (
     return res.status(500).json({ message: "Error desconocido" });
   }
 };
+
+export const loginUser = async (req: Request, res: Response): Promise<any> => {
+  const { username, email, password } = req.body;
+
+  try {
+    const user = await User.findOne({
+      where: [{ email }, { username }],
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    if (user.password !== password) {
+      return res.status(401).json({ message: "Contraseña incorrecta" });
+    }
+
+    return res.status(200).json({ message: `Bienvenido, ${user.name}!` });
+  } catch (error) {
+    console.error("Error en loginUser:", error);
+    return res.status(500).json({ message: "Error interno del servidor" });
+  }
+};

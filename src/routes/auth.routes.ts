@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { registerUser } from "../controllers/auth.controller"; // El controlador que manejará el registro
-
+import { registerUser, loginUser } from "../controllers/auth.controller";
 const router = Router();
 
 // Ruta para el registro
 router.post("/register", registerUser);
+router.post("/login", loginUser);
 
 export default router;
