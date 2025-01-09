@@ -52,12 +52,12 @@ export const registerUser = async (
 };
 
 export const loginUser = async (req: Request, res: Response): Promise<any> => {
-  const { username, email, password } = req.body;
+  const { email_or_username, password } = req.body;
 
   try {
-    const user =
-      (await User.findOne({ where: { email } })) ||
-      (await User.findOne({ where: { username } }));
+    const user = await User.findOne({
+      where: [{ email: email_or_username }, { username: email_or_username }],
+    });
 
     console.log(req.body);
 
