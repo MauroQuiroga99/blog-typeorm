@@ -55,9 +55,11 @@ export const loginUser = async (req: Request, res: Response): Promise<any> => {
   const { username, email, password } = req.body;
 
   try {
-    const user = await User.findOne({
-      where: [{ email }, { username }],
-    });
+    const user =
+      (await User.findOne({ where: { email } })) ||
+      (await User.findOne({ where: { username } }));
+
+    console.log(req.body);
 
     if (!user) {
       return res.status(404).json({ message: "Usuario no encontrado" });
@@ -67,7 +69,15 @@ export const loginUser = async (req: Request, res: Response): Promise<any> => {
       return res.status(401).json({ message: "Contraseña incorrecta" });
     }
 
-    return res.status(200).json({ message: `Bienvenido, ${user.name}!` });
+    return res.status(200).json({
+      message: `Bienvenido, ${user.name}!`,
+      user: {
+        id: user.id,
+        name: user.name,
+        username: user.username,
+        email: user.email,
+      },
+    });
   } catch (error) {
     console.error("Error en loginUser:", error);
     return res.status(500).json({ message: "Error interno del servidor" });
