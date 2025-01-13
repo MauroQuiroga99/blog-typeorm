@@ -26,6 +26,9 @@ class Post extends BaseEntity {
   @ManyToOne(() => User, (user) => user.posts)
   user: User;
 
+  @Column()
+  userId: string;
+
   @CreateDateColumn()
   createdAt: Date;
 

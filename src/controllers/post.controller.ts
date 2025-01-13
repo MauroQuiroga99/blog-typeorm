@@ -2,9 +2,9 @@ import { Request, Response } from "express";
 import Post from "../entities/Post";
 
 export const createPost = async (req: Request, res: Response): Promise<any> => {
-  const { title, content, status } = req.body;
+  const { title, content, status, userId } = req.body;
 
-  if (!title || !content || !status) {
+  if (!title || !content || !status || !userId) {
     return res.status(400).json({ message: "Todos los campos son requeridos" });
   }
 
@@ -13,6 +13,7 @@ export const createPost = async (req: Request, res: Response): Promise<any> => {
     post.title = title;
     post.content = content;
     post.status = status;
+    post.userId = userId;
 
     await post.save();
 
@@ -23,6 +24,7 @@ export const createPost = async (req: Request, res: Response): Promise<any> => {
         title: post.title,
         content: post.content,
         status: post.status,
+        userId: post.userId,
       },
     });
   } catch (error: unknown) {
