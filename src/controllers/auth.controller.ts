@@ -1,5 +1,7 @@
+import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import User from "../entities/User";
+import jwt from "jsonwebtoken";
 
 export const registerUser = async (
   req: Request,
@@ -24,11 +26,13 @@ export const registerUser = async (
       return res.status(400).json({ message: "El correo ya está en uso" });
     }
 
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const user = new User();
     user.name = name;
     user.username = username;
     user.email = email;
-    user.password = password;
+    user.password = hashedPassword;
 
     await user.save();
 
@@ -65,12 +69,20 @@ export const loginUser = async (req: Request, res: Response): Promise<any> => {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
 
-    if (user.password !== password) {
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
       return res.status(401).json({ message: "Contraseña incorrecta" });
     }
 
+    const token = jwt.sign(
+      { id: user.id, username: user.username, email: user.email },
+      process.env.JWT_SECRET || "default_secret",
+      { expiresIn: "1h" }
+    );
+
     return res.status(200).json({
       message: `Bienvenido, ${user.name}!`,
+      token,
       user: {
         id: user.id,
         name: user.name,
