@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import User from "../entities/User";
 import jwt from "jsonwebtoken";
+import { validateToken } from "../jwt";
 
 export const registerUser = async (
   req: Request,
@@ -94,4 +95,8 @@ export const loginUser = async (req: Request, res: Response): Promise<any> => {
     console.error("Error en loginUser:", error);
     return res.status(500).json({ message: "Error interno del servidor" });
   }
+};
+
+export const mauro = async (req: Request, res: Response): Promise<any> => {
+  return res.status(200).json({ message: "Hola Mauro" });
 };
