@@ -2,7 +2,6 @@ import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import User from "../entities/User";
 import jwt from "jsonwebtoken";
-import { validateToken } from "../jwt";
 
 export const registerUser = async (
   req: Request,
