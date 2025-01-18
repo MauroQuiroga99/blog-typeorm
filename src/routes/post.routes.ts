@@ -14,7 +14,7 @@ const router = Router();
 router.post("/", authenticateToken, createPost);
 router.get("/", getPosts);
 router.get("/:id", getPostById);
-router.put("/:id", updatePost);
+router.put("/:id", authenticateToken, updatePost);
 router.delete("/:id", deletePost);
 
 export default router;

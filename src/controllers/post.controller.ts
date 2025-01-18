@@ -2,9 +2,9 @@ import { Request, Response } from "express";
 import Post from "../entities/Post";
 
 export const createPost = async (req: Request, res: Response): Promise<any> => {
-  const { title, content, status, userId } = req.body;
+  const { title, content, status } = req.body;
 
-  if (!title || !content || !status || !userId) {
+  if (!title || !content || !status) {
     return res.status(400).json({ message: "Todos los campos son requeridos" });
   }
 
@@ -13,7 +13,8 @@ export const createPost = async (req: Request, res: Response): Promise<any> => {
     post.title = title;
     post.content = content;
     post.status = status;
-    post.userId = userId;
+    //@ts-ignore
+    post.userId = req.userId;
 
     await post.save();
 

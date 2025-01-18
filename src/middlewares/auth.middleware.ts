@@ -17,5 +17,9 @@ export const authenticateToken = (
     return res.status(401).json({ message: "Token inválido" });
   }
 
+  console.log("Payload:", payload);
+  //@ts-ignore
+  req.userId = payload.id;
+
   next();
 };
