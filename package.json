@@ -11,7 +11,9 @@
     "gen:migration": "npm run typeorm migration:generate ./src/database/migrations/blog",
     "run:migrations": "npm run typeorm migration:run",
     "revert:migration": "npm run typeorm migration:revert",
-    "empty:migration": "npm run typeorm migration:create ./src/database/migrations/blog"
+    "empty:migration": "npm run typeorm migration:create ./src/database/migrations/blog",
+    "typeorm:prod": "node ./node_modules/typeorm/cli.js -d ./dist/database/ormconfig.js",
+    "run:migrations:prod": "npm run typeorm:prod migration:run"
   },
   "keywords": [],
   "author": "",
