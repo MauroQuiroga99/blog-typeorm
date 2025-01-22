@@ -18,8 +18,8 @@ const appDataSource = new DataSource({
   logging: true,
   subscribers: [],
   migrations: !isProduction
-    ? ["src/database/migrations/.ts"]
-    : ["dist/database/migrations/.js"],
+    ? ["src/database/migrations/*.ts"]
+    : ["dist/database/migrations/*.js"],
 });
 
 appDataSource.initialize();
