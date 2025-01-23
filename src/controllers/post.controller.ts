@@ -40,7 +40,7 @@ export const createPost = async (req: Request, res: Response): Promise<any> => {
 
 export const getPosts = async (req: Request, res: Response): Promise<any> => {
   try {
-    const posts = await Post.find();
+    const posts = await Post.find({ where: { status: "published" } });
     return res.status(200).json(posts);
   } catch (error: unknown) {
     if (error instanceof Error) {
