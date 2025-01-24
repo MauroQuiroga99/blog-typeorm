@@ -37,11 +37,22 @@ export const createPost = async (req: Request, res: Response): Promise<any> => {
     return res.status(500).json({ message: "Error desconocido" });
   }
 };
-
 export const getPosts = async (req: Request, res: Response): Promise<any> => {
   try {
-    const posts = await Post.find({ where: { status: "published" } });
-    return res.status(200).json(posts);
+    const posts = await Post.find({
+      where: { status: "published" },
+      relations: ["user"],
+      order: { createdAt: "DESC" },
+    });
+    const postsWithUser = posts.map((post) => ({
+      id: post.id,
+      title: post.title,
+      content: post.content,
+      status: post.status,
+      userId: post.userId,
+      name: post.user.name,
+    }));
+    return res.status(200).json(postsWithUser);
   } catch (error: unknown) {
     if (error instanceof Error) {
       return res
