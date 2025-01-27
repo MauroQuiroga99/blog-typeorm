@@ -37,6 +37,7 @@ export const createPost = async (req: Request, res: Response): Promise<any> => {
     return res.status(500).json({ message: "Error desconocido" });
   }
 };
+
 export const getPosts = async (req: Request, res: Response): Promise<any> => {
   try {
     const posts = await Post.find({
@@ -44,6 +45,7 @@ export const getPosts = async (req: Request, res: Response): Promise<any> => {
       relations: ["user"],
       order: { createdAt: "DESC" },
     });
+
     const postsWithUser = posts.map((post) => ({
       id: post.id,
       title: post.title,

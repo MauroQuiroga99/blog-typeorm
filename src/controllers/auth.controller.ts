@@ -96,6 +96,19 @@ export const loginUser = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-export const mauro = async (req: Request, res: Response): Promise<any> => {
-  return res.status(200).json({ message: "Hola Mauro" });
+export const getMe = async (req: Request, res: Response): Promise<any> => {
+  //@ts-ignore
+  const dataUser = await User.findOneBy({ id: req.userId });
+  if (!dataUser) {
+    return res.status(400).json({ message: "El USUARIO NO EXISTE" });
+  }
+
+  return res.status(200).json({
+    user: {
+      id: dataUser.id,
+      name: dataUser.name,
+      username: dataUser.username,
+      email: dataUser.email,
+    },
+  });
 };
